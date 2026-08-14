@@ -1,0 +1,561 @@
+import { useState, useRef, useEffect, type FormEvent } from 'react'
+
+const WA_LINK = 'https://wa.me/972584998301'
+const IG_LINK = 'https://www.instagram.com/djgiladakoka?igsh=bXpnamxwcTQ5MDZv&utm_source=qr'
+const PHONE_LINK = 'tel:0584998301'
+
+const NAV_LINKS = [
+  { label: 'אודות', href: '#about' },
+  { label: 'חבילות', href: '#packages' },
+  { label: 'גלריה', href: '#gallery' },
+  { label: 'ביקורות', href: '#reviews' },
+]
+
+const GALLERY_ITEMS = [
+  { url: 'https://images.unsplash.com/photo-1630395822970-acd6a691d97e?w=680&h=780&fit=crop&auto=format', label: 'WEDDINGS' },
+  { url: 'https://images.unsplash.com/photo-1578736641330-3155e606cd40?w=680&h=780&fit=crop&auto=format', label: 'BAR / BAT MITZVAHS' },
+  { url: 'https://images.unsplash.com/photo-1545128485-c400e7702796?w=680&h=780&fit=crop&auto=format', label: 'CORPORATE EVENTS' },
+  { url: 'https://images.unsplash.com/photo-1581417478175-a9ef18f210c2?w=680&h=780&fit=crop&auto=format', label: 'PRIVATE PARTIES' },
+  { url: 'https://images.unsplash.com/photo-1544785316-6e58aed68a50?w=680&h=780&fit=crop&auto=format', label: 'FESTIVALS' },
+  { url: 'https://images.unsplash.com/photo-1574154894072-18ba0d48321b?w=680&h=780&fit=crop&auto=format', label: 'WEDDINGS' },
+]
+
+function InstagramIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
+function WhatsAppIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  )
+}
+
+function PhoneIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.05 10.83 19.79 19.79 0 01.02 2.2 2 2 0 012 .02h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+    </svg>
+  )
+}
+
+export default function App() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const galleryRef = useRef<HTMLDivElement>(null)
+  const [form, setForm] = useState({ name: '', phone: '', email: '', date: '', type: '', message: '' })
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const scrollGallery = (dir: 'prev' | 'next') => {
+    if (!galleryRef.current) return
+    galleryRef.current.scrollBy({ left: dir === 'next' ? -360 : 360, behavior: 'smooth' })
+  }
+
+  const handleFormSubmit = (e: FormEvent) => {
+    e.preventDefault()
+    const msg = `שלום גלעד! אני ${form.name} ואני מעוניין/ת לבדוק זמינות.
+טלפון: ${form.phone}
+אימייל: ${form.email}
+תאריך אירוע: ${form.date}
+סוג אירוע: ${form.type}
+פרטים: ${form.message}`
+    window.open(`${WA_LINK}?text=${encodeURIComponent(msg)}`, '_blank')
+  }
+
+  return (
+    <div style={{ direction: 'rtl', backgroundColor: '#070714', minHeight: '100vh', overflowX: 'hidden' }}>
+
+      {/* ── NAVBAR ─────────────────────────────────────────────── */}
+      <header
+        style={{
+          position: 'fixed', top: 0, right: 0, left: 0, zIndex: 100,
+          background: scrolled ? 'rgba(7,7,20,0.92)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(16px)' : 'none',
+          borderBottom: scrolled ? '1px solid #202046' : 'none',
+          transition: 'background 0.3s ease, border 0.3s ease',
+          padding: '0 24px',
+        }}
+      >
+        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72 }}>
+          {/* Logo */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{
+              width: 36, height: 36, borderRadius: 8,
+              background: 'linear-gradient(135deg, #2B4CFF, #FF007F)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 0 12px rgba(255,0,127,0.4)',
+              flexShrink: 0,
+            }}>
+              <span style={{ color: '#fff', fontFamily: 'Outfit,sans-serif', fontWeight: 900, fontSize: 14 }}>GA</span>
+            </div>
+            <div>
+              <div style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 900, fontSize: 18, lineHeight: 1.1 }}>
+                <span style={{ color: '#fff' }}>GILAD </span>
+                <span style={{ color: '#FF007F' }}>AKOKA</span>
+              </div>
+              <div style={{ color: '#DFB04F', fontSize: 10, letterSpacing: '0.12em', fontWeight: 500, fontFamily: 'Inter,sans-serif' }}>
+                DJ & EVENT PRODUCTION
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop nav */}
+          <nav style={{ display: 'flex', alignItems: 'center', gap: 32 }} className="hidden-mobile">
+            {NAV_LINKS.map(l => (
+              <a key={l.href} href={l.href} style={{ color: '#A0A2C3', fontSize: 15, fontWeight: 500, textDecoration: 'none', transition: 'color 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#A0A2C3')}
+              >{l.label}</a>
+            ))}
+            <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+              className="btn-pink"
+              style={{ padding: '10px 22px', borderRadius: 50, fontSize: 14, textDecoration: 'none', display: 'inline-block' }}>
+              Book Now
+            </a>
+          </nav>
+
+          {/* Mobile right side */}
+          <div style={{ display: 'none' }} className="show-mobile" id="mobile-nav-right">
+            <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+              className="btn-pink"
+              style={{ padding: '8px 18px', borderRadius: 50, fontSize: 13, textDecoration: 'none' }}>
+              Book
+            </a>
+          </div>
+        </div>
+
+        {/* Mobile menu backdrop */}
+        {menuOpen && (
+          <div style={{ background: 'rgba(7,7,20,0.98)', borderTop: '1px solid #202046', padding: '20px 24px' }}>
+            {NAV_LINKS.map(l => (
+              <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)}
+                style={{ display: 'block', color: '#fff', fontSize: 18, fontWeight: 600, padding: '12px 0', textDecoration: 'none', borderBottom: '1px solid #202046' }}>
+                {l.label}
+              </a>
+            ))}
+          </div>
+        )}
+      </header>
+
+      {/* ── HERO ───────────────────────────────────────────────── */}
+      <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', paddingTop: 72, overflow: 'hidden' }}>
+        {/* Atmospheric blobs */}
+        <div className="ambient-blob" style={{ width: 500, height: 500, background: 'rgba(43,76,255,0.12)', top: -100, left: '40%' }} />
+        <div className="ambient-blob" style={{ width: 400, height: 400, background: 'rgba(255,0,127,0.08)', bottom: 0, right: '10%' }} />
+        <div className="ambient-blob" style={{ width: 300, height: 300, background: 'rgba(100,0,200,0.1)', top: '30%', left: '20%' }} />
+
+        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '60px 24px', width: '100%' }}>
+          {/* Two-col: In RTL, first child → RIGHT side, second child → LEFT side */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 60, flexWrap: 'wrap' }}>
+
+            {/* TEXT COLUMN – rendered first → appears on RIGHT in RTL (Hebrew natural reading side) */}
+            <div style={{ flex: '1 1 420px', minWidth: 300 }}>
+              <div style={{ color: '#DFB04F', fontSize: 12, fontWeight: 700, letterSpacing: '0.18em', marginBottom: 20, fontFamily: 'Inter,sans-serif', textTransform: 'uppercase' }}>
+                ISRAEL'S PREMIER WEDDING &amp; EVENT DJ
+              </div>
+              <h1 className="font-display" style={{ fontSize: 'clamp(42px, 6vw, 80px)', fontWeight: 900, lineHeight: 1.08, marginBottom: 28 }}>
+                <span style={{ color: '#fff', display: 'block' }}>Your Party.</span>
+                <span style={{ color: '#fff', display: 'block' }}>Your Vibe.</span>
+                <span style={{ color: '#2B4CFF', display: 'block' }} className="text-glow-pink">My Music.</span>
+              </h1>
+              <p style={{ color: '#A0A2C3', fontSize: 17, lineHeight: 1.7, marginBottom: 36, maxWidth: 480 }}>
+                Making every event legendary. From breathtaking celebrations to packed wedding dance floors, Gilad creates the soundtrack that keeps the party moving all night long.
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
+                <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+                  className="btn-pink"
+                  style={{ padding: '14px 32px', borderRadius: 50, fontSize: 16, textDecoration: 'none', display: 'inline-block' }}>
+                  Let's Connect
+                </a>
+                <a href={IG_LINK} target="_blank" rel="noopener noreferrer"
+                  style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#A0A2C3', textDecoration: 'none', transition: 'color 0.2s' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#A0A2C3')}>
+                  <InstagramIcon size={22} />
+                  <span style={{ fontSize: 14, fontWeight: 500 }}>@djgiladakoka</span>
+                </a>
+              </div>
+            </div>
+
+            {/* IMAGE COLUMN – rendered second → appears on LEFT in RTL */}
+            <div style={{ flex: '1 1 380px', minWidth: 280, display: 'flex', justifyContent: 'center' }}>
+              <div style={{
+                position: 'relative', borderRadius: 24,
+                border: '2px solid #2B4CFF',
+                boxShadow: '0 0 40px rgba(43,76,255,0.35), 0 0 80px rgba(43,76,255,0.12)',
+                overflow: 'hidden', width: '100%', maxWidth: 520,
+              }}>
+                <img
+                  src="https://images.unsplash.com/photo-1767163983955-1a9e80048d96?w=1040&h=780&fit=crop&auto=format"
+                  alt="Gilad Akoka DJ performing"
+                  style={{ width: '100%', height: 'auto', display: 'block', aspectRatio: '4/3', objectFit: 'cover' }}
+                />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(7,7,20,0.5) 0%, transparent 50%)' }} />
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── ABOUT ──────────────────────────────────────────────── */}
+      <section id="about" style={{ background: '#101026', padding: '100px 24px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 60, flexWrap: 'wrap' }}>
+
+            {/* TEXT – first → RIGHT in RTL */}
+            <div style={{ flex: '1 1 420px', minWidth: 300 }}>
+              <div style={{ color: '#FF007F', fontSize: 12, fontWeight: 700, letterSpacing: '0.18em', marginBottom: 16, fontFamily: 'Inter,sans-serif' }}>
+                THE DJ BEHIND THE BEAT
+              </div>
+              <h2 className="font-display" style={{ fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 900, lineHeight: 1.1, marginBottom: 24 }}>
+                <span style={{ color: '#fff', display: 'block' }}>Crowd Reader.</span>
+                <span style={{ color: '#fff', display: 'block' }}>Energy Builder.</span>
+                <span style={{ color: '#DFB04F', display: 'block' }}>Hit Maker.</span>
+              </h2>
+              <p style={{ color: '#A0A2C3', fontSize: 16, lineHeight: 1.8, marginBottom: 40 }}>
+                Gilad Akoka is an Israeli event DJ focused on weddings and high-energy celebrations. His strength is reading the crowd in real time, understanding exactly when to change direction and building the energy of the dance floor naturally throughout the night. Every event is planned personally and every set is performed live according to the couple, the guests and the atmosphere.
+              </p>
+              <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
+                {[
+                  { num: '10+', label: 'Years Experience', color: '#2B4CFF' },
+                  { num: '500+', label: 'Events', color: '#FF007F' },
+                  { num: '100%', label: 'Energy', color: '#DFB04F' },
+                ].map(s => (
+                  <div key={s.label} style={{ textAlign: 'center' }}>
+                    <div className="font-display" style={{ fontSize: 44, fontWeight: 900, color: s.color, lineHeight: 1 }}>{s.num}</div>
+                    <div style={{ color: '#A0A2C3', fontSize: 13, marginTop: 6, fontWeight: 500 }}>{s.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* PHOTO – second → LEFT in RTL */}
+            <div style={{ flex: '1 1 380px', minWidth: 280 }}>
+              <div style={{ borderRadius: 24, overflow: 'hidden', border: '1px solid #202046' }}>
+                <img
+                  src="https://images.unsplash.com/photo-1764510382967-4b224cc7b056?w=900&h=700&fit=crop&auto=format"
+                  alt="Gilad performing for a crowd"
+                  style={{ width: '100%', display: 'block', aspectRatio: '4/3', objectFit: 'cover' }}
+                />
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── PACKAGES ───────────────────────────────────────────── */}
+      <section id="packages" style={{ background: '#070714', padding: '100px 24px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 64 }}>
+            <div style={{ color: '#DFB04F', fontSize: 12, fontWeight: 700, letterSpacing: '0.18em', marginBottom: 16 }}>חבילות לאירוע</div>
+            <h2 className="font-display" style={{ fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 900, color: '#fff', marginBottom: 20 }}>
+              בוחרים את החוויה שמתאימה לכם
+            </h2>
+            <p style={{ color: '#A0A2C3', fontSize: 16, maxWidth: 560, margin: '0 auto', lineHeight: 1.7 }}>
+              כל אירוע מקבל התאמה מוזיקלית אישית. לחצו על כפתור ההודעה לבדיקת זמינות ולקבלת הצעת מחיר.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+
+            {/* Card 1 */}
+            <div className="card-hover" style={{ background: '#101026', border: '1px solid #202046', borderRadius: 20, padding: 32 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+                <h3 className="font-display" style={{ fontSize: 26, fontWeight: 900, color: '#fff' }}>חתונה מלאה</h3>
+                <span style={{ background: 'rgba(43,76,255,0.15)', color: '#2B4CFF', border: '1px solid #2B4CFF', borderRadius: 50, padding: '4px 12px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', flexShrink: 0 }}>FULL EVENT</span>
+              </div>
+              <ul style={{ listStyle: 'none', marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {[
+                  'ליווי מלא מהאורח הראשון ועד שאחרון הרוקדים עוזב את הרחבה',
+                  'פגישת תיאום מוזיקלי לפני האירוע',
+                  'סבב ראשון ומסיבה שמתאימה לכל האורחים',
+                  'קריאת קהל מדויקת לאורך כל הערב',
+                  'ציוד מקצועי וליווי עד סוף המסיבה',
+                ].map(item => (
+                  <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, color: '#A0A2C3', fontSize: 14, lineHeight: 1.5 }}>
+                    <span style={{ color: '#2B4CFF', marginTop: 2, flexShrink: 0 }}>✦</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+                className="btn-outline-pink"
+                style={{ display: 'block', textAlign: 'center', padding: '13px 24px', borderRadius: 12, fontSize: 14, textDecoration: 'none' }}>
+                בדיקת זמינות ב-WhatsApp
+              </a>
+            </div>
+
+            {/* Card 2 – Featured */}
+            <div className="card-hover glow-pink" style={{ background: '#16163A', border: '2px solid #FF007F', borderRadius: 20, padding: 32, position: 'relative' }}>
+              <div style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', background: '#FF007F', color: '#fff', borderRadius: 50, padding: '4px 16px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>
+                ★ MOST POPULAR
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24, marginTop: 8 }}>
+                <h3 className="font-display" style={{ fontSize: 26, fontWeight: 900, color: '#fff' }}>AFTER PARTY</h3>
+                <span style={{ background: 'rgba(255,0,127,0.15)', color: '#FF007F', border: '1px solid #FF007F', borderRadius: 50, padding: '4px 12px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', flexShrink: 0 }}>NO TIME LIMIT</span>
+              </div>
+              <ul style={{ listStyle: 'none', marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {[
+                  'יש לכם להקה לסבב הראשון? מחפשים DJ שיעיף את הרחבה?',
+                  'אני מגיע בדיוק בשביל זה',
+                  'פגישת היכרות ותיאום מוזיקלי מקדים',
+                  'סט מסיבה שמרים את הרחבה',
+                  'ללא הגבלת זמן',
+                ].map(item => (
+                  <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, color: '#A0A2C3', fontSize: 14, lineHeight: 1.5 }}>
+                    <span style={{ color: '#FF007F', marginTop: 2, flexShrink: 0 }}>✦</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+                className="btn-pink"
+                style={{ display: 'block', textAlign: 'center', padding: '13px 24px', borderRadius: 12, fontSize: 14, textDecoration: 'none' }}>
+                בדיקת זמינות ב-WhatsApp
+              </a>
+            </div>
+
+            {/* Card 3 */}
+            <div className="card-hover" style={{ background: '#101026', border: '1px solid #202046', borderRadius: 20, padding: 32 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+                <h3 className="font-display" style={{ fontSize: 26, fontWeight: 900, color: '#fff' }}>Live on DJ</h3>
+                <span style={{ background: 'rgba(43,76,255,0.15)', color: '#2B4CFF', border: '1px solid #2B4CFF', borderRadius: 50, padding: '4px 12px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', flexShrink: 0 }}>LIVE SHOW</span>
+              </div>
+              <ul style={{ listStyle: 'none', marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {[
+                  'השילוב המושלם של DJ ושואו חי',
+                  'נגנים מקצועיים שמנגנים יחד עם Gilad',
+                  'הנגנים נמצאים במרכז רחבת הריקודים',
+                  'מעלים את האנרגיה של המסיבה לרמה הבאה',
+                  'התאמת נגנים אישית לפי האירוע',
+                ].map(item => (
+                  <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, color: '#A0A2C3', fontSize: 14, lineHeight: 1.5 }}>
+                    <span style={{ color: '#DFB04F', marginTop: 2, flexShrink: 0 }}>✦</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+                className="btn-outline-pink"
+                style={{ display: 'block', textAlign: 'center', padding: '13px 24px', borderRadius: 12, fontSize: 14, textDecoration: 'none' }}>
+                בדיקת זמינות ב-WhatsApp
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── GALLERY ────────────────────────────────────────────── */}
+      <section id="gallery" style={{ background: '#101026', padding: '100px 0' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', marginBottom: 48 }}>
+          <div style={{ color: '#2B4CFF', fontSize: 12, fontWeight: 700, letterSpacing: '0.18em', marginBottom: 12 }}>THE DANCEFLOOR MEMORIES</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+            <h2 className="font-display" style={{ fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 900, color: '#fff' }}>Moments From The Night</h2>
+            <div style={{ display: 'flex', gap: 12 }}>
+              <button onClick={() => scrollGallery('prev')}
+                style={{ width: 44, height: 44, borderRadius: '50%', background: '#16163A', border: '1px solid #202046', color: '#fff', cursor: 'pointer', fontSize: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'border-color 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = '#FF007F')}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = '#202046')}>
+                ›
+              </button>
+              <button onClick={() => scrollGallery('next')}
+                style={{ width: 44, height: 44, borderRadius: '50%', background: '#16163A', border: '1px solid #202046', color: '#fff', cursor: 'pointer', fontSize: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'border-color 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = '#FF007F')}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = '#202046')}>
+                ‹
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div ref={galleryRef} className="gallery-track" style={{ paddingRight: 24, paddingLeft: 24 }}>
+          {GALLERY_ITEMS.map((item, i) => (
+            <div key={i} className="gallery-card" style={{ width: 300, height: 380 }}>
+              <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: 20, overflow: 'hidden', border: '1px solid #202046', transition: 'transform 0.25s ease' }}
+                onMouseEnter={e => { const img = e.currentTarget.querySelector('img') as HTMLImageElement; if (img) img.style.transform = 'scale(1.05)' }}
+                onMouseLeave={e => { const img = e.currentTarget.querySelector('img') as HTMLImageElement; if (img) img.style.transform = 'scale(1)' }}>
+                <img src={item.url} alt={item.label} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s ease' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(7,7,20,0.75) 0%, transparent 60%)' }} />
+                <div style={{ position: 'absolute', bottom: 16, right: 16 }}>
+                  <span style={{ background: 'transparent', color: '#FF007F', border: '1px solid #FF007F', borderRadius: 50, padding: '4px 12px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em' }}>
+                    {item.label}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── REVIEWS ────────────────────────────────────────────── */}
+      <section id="reviews" style={{ background: '#070714', padding: '100px 24px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 64 }}>
+            <div style={{ color: '#2B4CFF', fontSize: 12, fontWeight: 700, letterSpacing: '0.18em', marginBottom: 16 }}>CUSTOMER REVIEWS</div>
+            <h2 className="font-display" style={{ fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 900, color: '#fff' }}>מה הלקוחות מספרים</h2>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+            {[
+              { review: 'כאן תופיע ביקורת אמיתית של זוג או לקוח לאחר שנוסיף את הטקסט.', name: 'שם הלקוח / הזוג' },
+              { review: 'מקום לביקורת נוספת שמספרת על החוויה, האנרגיה וקריאת הקהל באירוע.', name: 'שם הלקוח / הזוג' },
+              { review: 'מקום לביקורת נוספת על המקצועיות, המוזיקה והרחבה.', name: 'שם הלקוח / הזוג' },
+            ].map((r, i) => (
+              <div key={i} className="card-hover" style={{ background: '#101026', border: '1px solid #202046', borderRadius: 20, padding: 32 }}>
+                <div style={{ color: '#FF007F', fontSize: 24, marginBottom: 16, letterSpacing: 2 }}>★★★★★</div>
+                <p style={{ color: '#A0A2C3', fontSize: 15, lineHeight: 1.8, marginBottom: 24 }}>"{r.review}"</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'linear-gradient(135deg, #2B4CFF, #FF007F)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: 16, flexShrink: 0 }}>
+                    {String.fromCharCode(0x05D0 + i)}
+                  </div>
+                  <span style={{ color: '#fff', fontWeight: 600, fontSize: 15 }}>{r.name}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── BOOKING ────────────────────────────────────────────── */}
+      <section id="contact" style={{ background: '#101026', padding: '100px 24px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 64 }}>
+            <div style={{ color: '#FF007F', fontSize: 12, fontWeight: 700, letterSpacing: '0.18em', marginBottom: 16 }}>SECURE YOUR DATE</div>
+            <h2 className="font-display" style={{ fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 900, color: '#fff' }}>Let's Make Your Event Legendary</h2>
+          </div>
+
+          <div style={{ background: '#070714', border: '1px solid #202046', borderRadius: 24, padding: 'clamp(24px, 4vw, 56px)' }}>
+            <div style={{ display: 'flex', gap: 60, flexWrap: 'wrap' }}>
+
+              {/* Contact info – first → RIGHT in RTL */}
+              <div style={{ flex: '1 1 260px' }}>
+                <h3 className="font-display" style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 900, color: '#fff', marginBottom: 16, lineHeight: 1.2 }}>
+                  Tell me about<br />your vision.
+                </h3>
+                <p style={{ color: '#A0A2C3', fontSize: 15, lineHeight: 1.7, marginBottom: 36 }}>
+                  Tell me about your event and Gilad will get back to you with availability and the relevant event option.
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                  <a href={PHONE_LINK} style={{ display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none', color: '#fff' }}
+                    onMouseEnter={e => (e.currentTarget.style.color = '#2B4CFF')}
+                    onMouseLeave={e => (e.currentTarget.style.color = '#fff')}>
+                    <div style={{ width: 44, height: 44, borderRadius: 12, background: '#101026', border: '1px solid #202046', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2B4CFF', flexShrink: 0 }}>
+                      <PhoneIcon size={18} />
+                    </div>
+                    <div>
+                      <div style={{ color: '#A0A2C3', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', marginBottom: 2 }}>PHONE</div>
+                      <div style={{ fontWeight: 600, fontSize: 15 }}>058-499-8301</div>
+                    </div>
+                  </a>
+                  <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+                    style={{ display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none', color: '#fff' }}
+                    onMouseEnter={e => (e.currentTarget.style.color = '#25D366')}
+                    onMouseLeave={e => (e.currentTarget.style.color = '#fff')}>
+                    <div style={{ width: 44, height: 44, borderRadius: 12, background: '#101026', border: '1px solid #202046', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#25D366', flexShrink: 0 }}>
+                      <WhatsAppIcon size={18} />
+                    </div>
+                    <div>
+                      <div style={{ color: '#A0A2C3', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', marginBottom: 2 }}>WHATSAPP</div>
+                      <div style={{ fontWeight: 600, fontSize: 15 }}>058-499-8301</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              {/* Form – second → LEFT in RTL */}
+              <form onSubmit={handleFormSubmit} style={{ flex: '2 1 380px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                  <input className="form-input" placeholder="שם מלא" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} required />
+                  <input className="form-input" placeholder="מספר טלפון" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} required />
+                </div>
+                <input className="form-input" type="email" placeholder="כתובת אימייל" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                  <input className="form-input" type="date" value={form.date} onChange={e => setForm({ ...form, date: e.target.value })} />
+                  <select className="form-input" value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} style={{ cursor: 'pointer' }}>
+                    <option value="" disabled>סוג האירוע</option>
+                    <option value="חתונה">חתונה</option>
+                    <option value="בר/בת מצווה">בר/בת מצווה</option>
+                    <option value="After Party">After Party</option>
+                    <option value="Live on DJ">Live on DJ</option>
+                    <option value="אירוע פרטי">אירוע פרטי</option>
+                    <option value="אחר">אחר</option>
+                  </select>
+                </div>
+                <textarea className="form-input" placeholder="פרטים נוספים / חזון האירוע" rows={4} value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} style={{ resize: 'vertical' }} />
+                <button type="submit" className="btn-pink" style={{ padding: '16px 32px', borderRadius: 14, fontSize: 16, width: '100%' }}>
+                  בדיקת זמינות וקבלת הצעת מחיר
+                </button>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FOOTER ─────────────────────────────────────────────── */}
+      <footer style={{ background: '#101026', borderTop: '1px solid #202046', padding: '40px 24px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24, marginBottom: 32 }}>
+            <div>
+              <div className="font-display" style={{ fontSize: 20, fontWeight: 900 }}>
+                <span style={{ color: '#fff' }}>GILAD </span>
+                <span style={{ color: '#FF007F' }}>AKOKA</span>
+              </div>
+              <div style={{ color: '#DFB04F', fontSize: 11, letterSpacing: '0.12em', fontWeight: 500, marginTop: 4 }}>DJ & EVENT PRODUCTION</div>
+            </div>
+            <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+              <a href={IG_LINK} target="_blank" rel="noopener noreferrer"
+                style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#A0A2C3', textDecoration: 'none', transition: 'color 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#A0A2C3')}>
+                <InstagramIcon size={18} />
+                <span style={{ fontSize: 14 }}>@djgiladakoka</span>
+              </a>
+              <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+                style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#A0A2C3', textDecoration: 'none', transition: 'color 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#25D366')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#A0A2C3')}>
+                <WhatsAppIcon size={18} />
+                <span style={{ fontSize: 14 }}>058-499-8301</span>
+              </a>
+            </div>
+          </div>
+          <div style={{ borderTop: '1px solid #202046', paddingTop: 24, textAlign: 'center', color: '#4a4a6a', fontSize: 13 }}>
+            © 2026 DJ Gilad Akoka. All Rights Reserved.
+          </div>
+        </div>
+      </footer>
+
+      {/* ── MOBILE STYLES ──────────────────────────────────────── */}
+      <style>{`
+        @media (max-width: 768px) {
+          .hidden-mobile { display: none !important; }
+          .show-mobile { display: flex !important; }
+        }
+        @media (min-width: 769px) {
+          .show-mobile { display: none !important; }
+          #mobile-nav-right { display: none !important; }
+        }
+        @media (max-width: 640px) {
+          .form-input { font-size: 16px; }
+        }
+      `}</style>
+
+    </div>
+  )
+}
