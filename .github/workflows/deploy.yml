@@ -40,6 +40,11 @@ jobs:
       - name: Build
         run: pnpm run build
 
+      - name: Copy repository images into built site
+        run: |
+          mkdir -p dist/images
+          cp -R images/. dist/images/
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
