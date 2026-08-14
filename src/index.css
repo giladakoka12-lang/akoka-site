@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800;900&family=Inter:wght@300;400;500;600&display=swap');
+@import 'tailwindcss';
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  direction: rtl;
+}
+
+body {
+  background-color: #070714;
+  color: #ffffff;
+  font-family: 'Inter', 'Heebo', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.font-display {
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Scrollbar hide */
+::-webkit-scrollbar { width: 0; height: 0; }
+* { scrollbar-width: none; }
+
+/* Neon glows */
+.glow-pink {
+  box-shadow: 0 0 20px rgba(255, 0, 127, 0.4), 0 0 40px rgba(255, 0, 127, 0.15);
+}
+.glow-blue {
+  box-shadow: 0 0 20px rgba(43, 76, 255, 0.4), 0 0 40px rgba(43, 76, 255, 0.15);
+}
+.text-glow-pink {
+  text-shadow: 0 0 20px rgba(255, 0, 127, 0.6);
+}
+
+/* Ambient blob */
+.ambient-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+/* Gallery horizontal scroll */
+.gallery-track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 12px;
+}
+.gallery-track::-webkit-scrollbar { display: none; }
+.gallery-card {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* Card hover lift */
+.card-hover {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+}
+
+/* Input styles */
+.form-input {
+  width: 100%;
+  background: #070714;
+  border: 1px solid #202046;
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease;
+  direction: rtl;
+}
+.form-input:focus {
+  border-color: #FF007F;
+}
+.form-input::placeholder {
+  color: #4a4a6a;
+}
+
+/* Button transitions */
+.btn-pink {
+  background: #FF007F;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+}
+.btn-pink:hover {
+  box-shadow: 0 0 24px rgba(255, 0, 127, 0.6);
+  transform: translateY(-1px);
+}
+.btn-outline-pink {
+  background: transparent;
+  color: #FF007F;
+  border: 1px solid #FF007F;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, background 0.2s ease;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+}
+.btn-outline-pink:hover {
+  background: rgba(255, 0, 127, 0.1);
+  box-shadow: 0 0 16px rgba(255, 0, 127, 0.3);
+}
