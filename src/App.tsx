@@ -12,12 +12,12 @@ const NAV_LINKS = [
 ]
 
 const GALLERY_ITEMS = [
-  { url: 'https://images.unsplash.com/photo-1630395822970-acd6a691d97e?w=680&h=780&fit=crop&auto=format', label: 'WEDDINGS' },
-  { url: 'https://images.unsplash.com/photo-1578736641330-3155e606cd40?w=680&h=780&fit=crop&auto=format', label: 'BAR / BAT MITZVAHS' },
-  { url: 'https://images.unsplash.com/photo-1545128485-c400e7702796?w=680&h=780&fit=crop&auto=format', label: 'CORPORATE EVENTS' },
-  { url: 'https://images.unsplash.com/photo-1581417478175-a9ef18f210c2?w=680&h=780&fit=crop&auto=format', label: 'PRIVATE PARTIES' },
-  { url: 'https://images.unsplash.com/photo-1544785316-6e58aed68a50?w=680&h=780&fit=crop&auto=format', label: 'FESTIVALS' },
-  { url: 'https://images.unsplash.com/photo-1574154894072-18ba0d48321b?w=680&h=780&fit=crop&auto=format', label: 'WEDDINGS' },
+  { url: 'https://images.unsplash.com/photo-1630395822970-acd6a691d97e?w=680&h=780&fit=crop&auto=format', label: 'חתונות' },
+  { url: 'https://images.unsplash.com/photo-1578736641330-3155e606cd40?w=680&h=780&fit=crop&auto=format', label: 'בר / בת מצווה' },
+  { url: 'https://images.unsplash.com/photo-1545128485-c400e7702796?w=680&h=780&fit=crop&auto=format', label: 'אירועים עסקיים' },
+  { url: 'https://images.unsplash.com/photo-1581417478175-a9ef18f210c2?w=680&h=780&fit=crop&auto=format', label: 'אירועים פרטיים' },
+  { url: 'https://images.unsplash.com/photo-1544785316-6e58aed68a50?w=680&h=780&fit=crop&auto=format', label: 'פסטיבלים' },
+  { url: 'https://images.unsplash.com/photo-1574154894072-18ba0d48321b?w=680&h=780&fit=crop&auto=format', label: 'חתונות' },
 ]
 
 function InstagramIcon({ size = 20 }: { size?: number }) {
@@ -102,11 +102,11 @@ export default function App() {
             </div>
             <div>
               <div style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 900, fontSize: 18, lineHeight: 1.1 }}>
-                <span style={{ color: '#fff' }}>GILAD </span>
-                <span style={{ color: '#FF007F' }}>AKOKA</span>
+                <span style={{ color: '#fff' }}>גלעד </span>
+                <span style={{ color: '#FF007F' }}>אקוקה</span>
               </div>
               <div style={{ color: '#DFB04F', fontSize: 10, letterSpacing: '0.12em', fontWeight: 500, fontFamily: 'Inter,sans-serif' }}>
-                DJ & EVENT PRODUCTION
+                דיג׳יי והפקת אירועים
               </div>
             </div>
           </div>
@@ -163,15 +163,15 @@ export default function App() {
             {/* TEXT COLUMN – rendered first → appears on RIGHT in RTL (Hebrew natural reading side) */}
             <div style={{ flex: '1 1 420px', minWidth: 300 }}>
               <div style={{ color: '#DFB04F', fontSize: 12, fontWeight: 700, letterSpacing: '0.18em', marginBottom: 20, fontFamily: 'Inter,sans-serif', textTransform: 'uppercase' }}>
-                ISRAEL'S PREMIER WEDDING &amp; EVENT DJ
+                הדיג׳יי לחתונות ואירועים ברמה הגבוהה ביותר בישראל
               </div>
               <h1 className="font-display" style={{ fontSize: 'clamp(42px, 6vw, 80px)', fontWeight: 900, lineHeight: 1.08, marginBottom: 28 }}>
-                <span style={{ color: '#fff', display: 'block' }}>Your Party.</span>
-                <span style={{ color: '#fff', display: 'block' }}>Your Vibe.</span>
-                <span style={{ color: '#2B4CFF', display: 'block' }} className="text-glow-pink">My Music.</span>
+                <span style={{ color: '#fff', display: 'block' }}>האירוע שלכם.</span>
+                <span style={{ color: '#fff', display: 'block' }}>הווייב שלכם.</span>
+                <span style={{ color: '#2B4CFF', display: 'block' }} className="text-glow-pink">המוזיקה שלי.</span>
               </h1>
               <p style={{ color: '#A0A2C3', fontSize: 17, lineHeight: 1.7, marginBottom: 36, maxWidth: 480 }}>
-                Making every event legendary. From breathtaking celebrations to packed wedding dance floors, Gilad creates the soundtrack that keeps the party moving all night long.
+                הופך כל אירוע לחוויה בלתי נשכחת. מחגיגות מרגשות ועד רחבות חתונה מלאות, גלעד יוצר את הפסקול שמחזיק את המסיבה באוויר עד השעות הקטנות של הלילה.
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
                 <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
@@ -199,7 +199,7 @@ export default function App() {
               }}>
                 <img
                   src="https://images.unsplash.com/photo-1767163983955-1a9e80048d96?w=1040&h=780&fit=crop&auto=format"
-                  alt="Gilad Akoka DJ performing"
+                  alt="גלעד אקוקה מתקלט באירוע"
                   style={{ width: '100%', height: 'auto', display: 'block', aspectRatio: '4/3', objectFit: 'cover' }}
                 />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(7,7,20,0.5) 0%, transparent 50%)' }} />
@@ -218,21 +218,21 @@ export default function App() {
             {/* TEXT – first → RIGHT in RTL */}
             <div style={{ flex: '1 1 420px', minWidth: 300 }}>
               <div style={{ color: '#FF007F', fontSize: 12, fontWeight: 700, letterSpacing: '0.18em', marginBottom: 16, fontFamily: 'Inter,sans-serif' }}>
-                THE DJ BEHIND THE BEAT
+                הדיג׳יי מאחורי הקצב
               </div>
               <h2 className="font-display" style={{ fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 900, lineHeight: 1.1, marginBottom: 24 }}>
-                <span style={{ color: '#fff', display: 'block' }}>Crowd Reader.</span>
-                <span style={{ color: '#fff', display: 'block' }}>Energy Builder.</span>
-                <span style={{ color: '#DFB04F', display: 'block' }}>Hit Maker.</span>
+                <span style={{ color: '#fff', display: 'block' }}>קורא את הקהל.</span>
+                <span style={{ color: '#fff', display: 'block' }}>בונה את האנרגיה.</span>
+                <span style={{ color: '#DFB04F', display: 'block' }}>יוצר רגעים.</span>
               </h2>
               <p style={{ color: '#A0A2C3', fontSize: 16, lineHeight: 1.8, marginBottom: 40 }}>
-                Gilad Akoka is an Israeli event DJ focused on weddings and high-energy celebrations. His strength is reading the crowd in real time, understanding exactly when to change direction and building the energy of the dance floor naturally throughout the night. Every event is planned personally and every set is performed live according to the couple, the guests and the atmosphere.
+                גלעד אקוקה הוא דיג׳יי ישראלי לאירועים, המתמחה בחתונות ובחגיגות עם אנרגיה גבוהה. הכוח שלו הוא לקרוא את הקהל בזמן אמת, להבין בדיוק מתי לשנות כיוון ולבנות את האנרגיה ברחבה באופן טבעי לאורך כל הערב. כל אירוע מתוכנן באופן אישי, וכל סט נבנה ומבוצע בלייב בהתאם לזוג, לאורחים ולאווירה.
               </p>
               <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
                 {[
-                  { num: '10+', label: 'Years Experience', color: '#2B4CFF' },
-                  { num: '500+', label: 'Events', color: '#FF007F' },
-                  { num: '100%', label: 'Energy', color: '#DFB04F' },
+                  { num: '10+', label: 'שנות ניסיון', color: '#2B4CFF' },
+                  { num: '500+', label: 'אירועים', color: '#FF007F' },
+                  { num: '100%', label: 'אנרגיה', color: '#DFB04F' },
                 ].map(s => (
                   <div key={s.label} style={{ textAlign: 'center' }}>
                     <div className="font-display" style={{ fontSize: 44, fontWeight: 900, color: s.color, lineHeight: 1 }}>{s.num}</div>
@@ -247,7 +247,7 @@ export default function App() {
               <div style={{ borderRadius: 24, overflow: 'hidden', border: '1px solid #202046' }}>
                 <img
                   src="https://images.unsplash.com/photo-1764510382967-4b224cc7b056?w=900&h=700&fit=crop&auto=format"
-                  alt="Gilad performing for a crowd"
+                  alt="גלעד מתקלט מול קהל"
                   style={{ width: '100%', display: 'block', aspectRatio: '4/3', objectFit: 'cover' }}
                 />
               </div>
@@ -276,7 +276,7 @@ export default function App() {
             <div className="card-hover" style={{ background: '#101026', border: '1px solid #202046', borderRadius: 20, padding: 32 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
                 <h3 className="font-display" style={{ fontSize: 26, fontWeight: 900, color: '#fff' }}>חתונה מלאה</h3>
-                <span style={{ background: 'rgba(43,76,255,0.15)', color: '#2B4CFF', border: '1px solid #2B4CFF', borderRadius: 50, padding: '4px 12px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', flexShrink: 0 }}>FULL EVENT</span>
+                <span style={{ background: 'rgba(43,76,255,0.15)', color: '#2B4CFF', border: '1px solid #2B4CFF', borderRadius: 50, padding: '4px 12px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', flexShrink: 0 }}>אירוע מלא</span>
               </div>
               <ul style={{ listStyle: 'none', marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 14 }}>
                 {[
@@ -295,18 +295,18 @@ export default function App() {
               <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
                 className="btn-outline-pink"
                 style={{ display: 'block', textAlign: 'center', padding: '13px 24px', borderRadius: 12, fontSize: 14, textDecoration: 'none' }}>
-                בדיקת זמינות ב-WhatsApp
+                בדיקת זמינות בוואטסאפ
               </a>
             </div>
 
             {/* Card 2 – Featured */}
             <div className="card-hover glow-pink" style={{ background: '#16163A', border: '2px solid #FF007F', borderRadius: 20, padding: 32, position: 'relative' }}>
               <div style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', background: '#FF007F', color: '#fff', borderRadius: 50, padding: '4px 16px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>
-                ★ MOST POPULAR
+                ★ הכי פופולרי
               </div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24, marginTop: 8 }}>
-                <h3 className="font-display" style={{ fontSize: 26, fontWeight: 900, color: '#fff' }}>AFTER PARTY</h3>
-                <span style={{ background: 'rgba(255,0,127,0.15)', color: '#FF007F', border: '1px solid #FF007F', borderRadius: 50, padding: '4px 12px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', flexShrink: 0 }}>NO TIME LIMIT</span>
+                <h3 className="font-display" style={{ fontSize: 26, fontWeight: 900, color: '#fff' }}>אפטר פארטי</h3>
+                <span style={{ background: 'rgba(255,0,127,0.15)', color: '#FF007F', border: '1px solid #FF007F', borderRadius: 50, padding: '4px 12px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', flexShrink: 0 }}>ללא הגבלת זמן</span>
               </div>
               <ul style={{ listStyle: 'none', marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 14 }}>
                 {[
@@ -325,20 +325,20 @@ export default function App() {
               <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
                 className="btn-pink"
                 style={{ display: 'block', textAlign: 'center', padding: '13px 24px', borderRadius: 12, fontSize: 14, textDecoration: 'none' }}>
-                בדיקת זמינות ב-WhatsApp
+                בדיקת זמינות בוואטסאפ
               </a>
             </div>
 
             {/* Card 3 */}
             <div className="card-hover" style={{ background: '#101026', border: '1px solid #202046', borderRadius: 20, padding: 32 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
-                <h3 className="font-display" style={{ fontSize: 26, fontWeight: 900, color: '#fff' }}>Live on DJ</h3>
-                <span style={{ background: 'rgba(43,76,255,0.15)', color: '#2B4CFF', border: '1px solid #2B4CFF', borderRadius: 50, padding: '4px 12px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', flexShrink: 0 }}>LIVE SHOW</span>
+                <h3 className="font-display" style={{ fontSize: 26, fontWeight: 900, color: '#fff' }}>דיג׳יי + לייב</h3>
+                <span style={{ background: 'rgba(43,76,255,0.15)', color: '#2B4CFF', border: '1px solid #2B4CFF', borderRadius: 50, padding: '4px 12px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', flexShrink: 0 }}>הופעה חיה</span>
               </div>
               <ul style={{ listStyle: 'none', marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 14 }}>
                 {[
                   'השילוב המושלם של DJ ושואו חי',
-                  'נגנים מקצועיים שמנגנים יחד עם Gilad',
+                  'נגנים מקצועיים שמנגנים יחד עם גלעד',
                   'הנגנים נמצאים במרכז רחבת הריקודים',
                   'מעלים את האנרגיה של המסיבה לרמה הבאה',
                   'התאמת נגנים אישית לפי האירוע',
@@ -352,7 +352,7 @@ export default function App() {
               <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
                 className="btn-outline-pink"
                 style={{ display: 'block', textAlign: 'center', padding: '13px 24px', borderRadius: 12, fontSize: 14, textDecoration: 'none' }}>
-                בדיקת זמינות ב-WhatsApp
+                בדיקת זמינות בוואטסאפ
               </a>
             </div>
 
@@ -363,9 +363,9 @@ export default function App() {
       {/* ── GALLERY ────────────────────────────────────────────── */}
       <section id="gallery" style={{ background: '#101026', padding: '100px 0' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', marginBottom: 48 }}>
-          <div style={{ color: '#2B4CFF', fontSize: 12, fontWeight: 700, letterSpacing: '0.18em', marginBottom: 12 }}>THE DANCEFLOOR MEMORIES</div>
+          <div style={{ color: '#2B4CFF', fontSize: 12, fontWeight: 700, letterSpacing: '0.18em', marginBottom: 12 }}>הזיכרונות מרחבת הריקודים</div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
-            <h2 className="font-display" style={{ fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 900, color: '#fff' }}>Moments From The Night</h2>
+            <h2 className="font-display" style={{ fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 900, color: '#fff' }}>רגעים מהלילה</h2>
             <div style={{ display: 'flex', gap: 12 }}>
               <button onClick={() => scrollGallery('prev')}
                 style={{ width: 44, height: 44, borderRadius: '50%', background: '#16163A', border: '1px solid #202046', color: '#fff', cursor: 'pointer', fontSize: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'border-color 0.2s' }}
@@ -406,7 +406,7 @@ export default function App() {
       <section id="reviews" style={{ background: '#070714', padding: '100px 24px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 64 }}>
-            <div style={{ color: '#2B4CFF', fontSize: 12, fontWeight: 700, letterSpacing: '0.18em', marginBottom: 16 }}>CUSTOMER REVIEWS</div>
+            <div style={{ color: '#2B4CFF', fontSize: 12, fontWeight: 700, letterSpacing: '0.18em', marginBottom: 16 }}>ביקורות לקוחות</div>
             <h2 className="font-display" style={{ fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 900, color: '#fff' }}>מה הלקוחות מספרים</h2>
           </div>
 
@@ -435,8 +435,8 @@ export default function App() {
       <section id="contact" style={{ background: '#101026', padding: '100px 24px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 64 }}>
-            <div style={{ color: '#FF007F', fontSize: 12, fontWeight: 700, letterSpacing: '0.18em', marginBottom: 16 }}>SECURE YOUR DATE</div>
-            <h2 className="font-display" style={{ fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 900, color: '#fff' }}>Let's Make Your Event Legendary</h2>
+            <div style={{ color: '#FF007F', fontSize: 12, fontWeight: 700, letterSpacing: '0.18em', marginBottom: 16 }}>שומרים את התאריך</div>
+            <h2 className="font-display" style={{ fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 900, color: '#fff' }}>בואו נהפוך את האירוע שלכם לבלתי נשכח</h2>
           </div>
 
           <div style={{ background: '#070714', border: '1px solid #202046', borderRadius: 24, padding: 'clamp(24px, 4vw, 56px)' }}>
@@ -445,10 +445,10 @@ export default function App() {
               {/* Contact info – first → RIGHT in RTL */}
               <div style={{ flex: '1 1 260px' }}>
                 <h3 className="font-display" style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 900, color: '#fff', marginBottom: 16, lineHeight: 1.2 }}>
-                  Tell me about<br />your vision.
+                  ספרו לי על<br />האירוע שאתם מדמיינים.
                 </h3>
                 <p style={{ color: '#A0A2C3', fontSize: 15, lineHeight: 1.7, marginBottom: 36 }}>
-                  Tell me about your event and Gilad will get back to you with availability and the relevant event option.
+                  ספרו לי על האירוע שלכם, וגלעד יחזור אליכם עם זמינות והאפשרות המתאימה ביותר לאירוע.
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                   <a href={PHONE_LINK} style={{ display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none', color: '#fff' }}
@@ -458,7 +458,7 @@ export default function App() {
                       <PhoneIcon size={18} />
                     </div>
                     <div>
-                      <div style={{ color: '#A0A2C3', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', marginBottom: 2 }}>PHONE</div>
+                      <div style={{ color: '#A0A2C3', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', marginBottom: 2 }}>טלפון</div>
                       <div style={{ fontWeight: 600, fontSize: 15 }}>058-499-8301</div>
                     </div>
                   </a>
@@ -470,7 +470,7 @@ export default function App() {
                       <WhatsAppIcon size={18} />
                     </div>
                     <div>
-                      <div style={{ color: '#A0A2C3', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', marginBottom: 2 }}>WHATSAPP</div>
+                      <div style={{ color: '#A0A2C3', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', marginBottom: 2 }}>וואטסאפ</div>
                       <div style={{ fontWeight: 600, fontSize: 15 }}>058-499-8301</div>
                     </div>
                   </a>
@@ -490,8 +490,8 @@ export default function App() {
                     <option value="" disabled>סוג האירוע</option>
                     <option value="חתונה">חתונה</option>
                     <option value="בר/בת מצווה">בר/בת מצווה</option>
-                    <option value="After Party">After Party</option>
-                    <option value="Live on DJ">Live on DJ</option>
+                    <option value="אפטר פארטי">אפטר פארטי</option>
+                    <option value="דיג׳יי + לייב">דיג׳יי + לייב</option>
                     <option value="אירוע פרטי">אירוע פרטי</option>
                     <option value="אחר">אחר</option>
                   </select>
@@ -513,10 +513,10 @@ export default function App() {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24, marginBottom: 32 }}>
             <div>
               <div className="font-display" style={{ fontSize: 20, fontWeight: 900 }}>
-                <span style={{ color: '#fff' }}>GILAD </span>
-                <span style={{ color: '#FF007F' }}>AKOKA</span>
+                <span style={{ color: '#fff' }}>גלעד </span>
+                <span style={{ color: '#FF007F' }}>אקוקה</span>
               </div>
-              <div style={{ color: '#DFB04F', fontSize: 11, letterSpacing: '0.12em', fontWeight: 500, marginTop: 4 }}>DJ & EVENT PRODUCTION</div>
+              <div style={{ color: '#DFB04F', fontSize: 11, letterSpacing: '0.12em', fontWeight: 500, marginTop: 4 }}>דיג׳יי והפקת אירועים</div>
             </div>
             <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
               <a href={IG_LINK} target="_blank" rel="noopener noreferrer"
@@ -536,7 +536,7 @@ export default function App() {
             </div>
           </div>
           <div style={{ borderTop: '1px solid #202046', paddingTop: 24, textAlign: 'center', color: '#4a4a6a', fontSize: 13 }}>
-            © 2026 DJ Gilad Akoka. All Rights Reserved.
+            © 2026 דיג׳יי גלעד אקוקה. כל הזכויות שמורות.
           </div>
         </div>
       </footer>
